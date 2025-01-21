@@ -34,3 +34,12 @@ pnpm dev
 bun dev
 ```
 - Open your browser and navigate to http://localhost:3000 to view the app.
+
+## APIS
+Currently the application has one API that creates a task for the client, the APIs are found in the '/app/api'. 
+
+## How the API Works:
+It performs the following steps:
+- Reads and validates input: It checks if the title, description, and date are provided in the request body.
+- Creates the task: If the data is valid, it creates a new task in the database using Prisma's create method.
+- Returns response: On success, it returns the created task with a 201 status. If there’s an error, it logs the error and returns a 500 status with a generic error message.
