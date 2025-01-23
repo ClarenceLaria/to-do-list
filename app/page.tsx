@@ -3,6 +3,7 @@ import Input from "./Components/Input";
 import { useEffect, useState } from "react";
 import {Button} from "./Components/Button";
 import toast from 'react-hot-toast';
+import clsx from "clsx";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ export default function Home() {
 
   const dueDate = new Date(formData.date);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (!event) {
       return;
     }
@@ -102,9 +103,10 @@ export default function Home() {
       toast.error('Failed to create task');
     }
   }
+  console.log(formData)
   return (
     <div className="flex flex-col bg-card items-center justify-center h-screen py-2">
-      <h1>Add An Item To Your To Do List</h1>
+      <h1 className="text-lg font-semibold">Add An Item To Your To Do List</h1>
       <form className="w-1/3">
         <Input
           id='title'
@@ -117,17 +119,10 @@ export default function Home() {
           value={formData.title}
           onChange={handleChange}
         />
-        <Input
-          id='description'
-          name='description'
-          label='Description'
-          type='text'
-          required
-          placeholder='Enter Description'
-          disabled={disabled}
-          value={formData.description}
-          onChange={handleChange}
-        />
+        <div className="flex flex-col">
+          <label htmlFor="description" className="block text-sm font-medium leading-7 text-card-foreground">Description</label>
+          <textarea id="description" name="description" placeholder="Enter Description" disabled={disabled } onChange={(event) => handleChange(event)} className={clsx(`block w-full min-h-20 rounded-md border-0 py-1.5 px-3 mb-2 text-card-foreground shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-sky-300`,disabled && 'opacity-100 cursor-default')}></textarea>
+        </div>
         <Input
           id='date'
           name='date'
