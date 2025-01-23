@@ -1,8 +1,7 @@
 'use client'
-import Image from "next/image";
 import Input from "./Components/Input";
 import { useEffect, useState } from "react";
-import Button from "./Components/Button";
+import {Button} from "./Components/Button";
 import toast from 'react-hot-toast';
 
 export default function Home() {
@@ -20,9 +19,6 @@ export default function Home() {
   }, [loading]);
 
   const dueDate = new Date(formData.date);
-  const currentDate = new Date();
-
-  currentDate.setHours(0,0,0,0);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event) {
@@ -106,9 +102,8 @@ export default function Home() {
       toast.error('Failed to create task');
     }
   }
-  console.log(currentDate)
   return (
-    <div className="flex flex-col items-center justify-center h-screen py-2">
+    <div className="flex flex-col bg-card items-center justify-center h-screen py-2">
       <h1>Add An Item To Your To Do List</h1>
       <form className="w-1/3">
         <Input
@@ -144,7 +139,7 @@ export default function Home() {
           value={formData.date}
           onChange={handleChange}
         />
-        <Button type="submit" fullWidth onClick={() => handleSubmit()} disabled={disabled}>Submit</Button>
+        <Button type="submit" onClick={() => handleSubmit()} disabled={disabled}>Submit</Button>
       </form>
     </div>
   );
