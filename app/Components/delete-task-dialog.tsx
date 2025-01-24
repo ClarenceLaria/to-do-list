@@ -63,13 +63,13 @@ export function DeleteTaskDialog({ open, id}: DeleteSchoolDialogProps) {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create School</DialogTitle>
+          <DialogTitle>Delete Task</DialogTitle>
           <DialogDescription>
-            Add a new school and assign a dean
+            Delete a task completely
           </DialogDescription>
         </DialogHeader>
             <DialogFooter>
-              <Button type="submit" className="bg-destructive items-center" onClick={() => handleDelete()}>Delete School</Button>
+              <Button type="submit" className="bg-destructive items-center" onClick={() => handleDelete()}>Delete Task</Button>
             </DialogFooter>
       </DialogContent>
     </Dialog>

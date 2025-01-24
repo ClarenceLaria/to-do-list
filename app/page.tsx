@@ -104,7 +104,6 @@ export default function Home() {
       toast.error('Failed to create task');
     }
   }
-  console.log(formData)
   return (
     <div className="bg-background grid grid-cols-2 ">
       <div className="flex flex-col items-center justify-center h-screen py-2">

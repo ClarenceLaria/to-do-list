@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/Components/Card";
 import {
   Table,
@@ -14,6 +14,8 @@ import { Status } from '@prisma/client';
 import { Button } from './Button';
 import { Check, Trash2,  } from 'lucide-react';
 import { DeleteTaskDialog } from './delete-task-dialog';
+import toast from 'react-hot-toast';
+import { setCompleteTask } from '../lib/actions';
 
 interface Task{
     id: string;
@@ -33,24 +35,35 @@ export default function TasksTable() {
         setOpenDelete((prev) => !prev);
     };
 
-    useEffect(() => {
-        const handleTasks = async () => {
-            try{
-                const response = await fetch('/api/fetch-task');
-                const data = await response.json();
+    const handleTasks = useCallback(async () => {
+        try{
+            const response = await fetch('/api/fetch-task');
+            const data = await response.json();
 
-                const tasksWithDates = data.map((task: Task) => ({
-                    ...task,
-                    dueDate: new Date(task.dueDate),
-                    updatedAt: new Date(task.updatedAt),
-                  }));
-                setTasks(tasksWithDates);
-            }catch(error){
-                console.error("Error fetching tasks: ",error);
-            }
-        };
-        handleTasks();
+            const tasksWithDates = data.map((task: Task) => ({
+                ...task,
+                dueDate: new Date(task.dueDate),
+                updatedAt: new Date(task.updatedAt),
+              }));
+            setTasks(tasksWithDates);
+        }catch(error){
+            console.error("Error fetching tasks: ",error);
+        }
     },[]);
+    useEffect(() => {
+        handleTasks();
+    },[handleTasks]);
+
+    const handleCompleteTask = async () => {
+        const result = await setCompleteTask(id)
+
+        if(result.success){
+            toast.success(result.message);
+            await handleTasks();
+        } else {
+            toast.error(result.message); // Log or show a toast for error
+        }
+    }
   return (
     <>
     <Card>
@@ -65,7 +78,7 @@ export default function TasksTable() {
                 <TableHead>Title</TableHead>
                 <TableHead>Description</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Created On</TableHead>
+                <TableHead>Updated On</TableHead>
                 <TableHead>Completed by</TableHead>
                 <TableHead>Action</TableHead>
                 </TableRow>
@@ -86,7 +99,7 @@ export default function TasksTable() {
                     <TableCell>{task.updatedAt.toDateString()}</TableCell>
                     <TableCell>{task.dueDate.toDateString()}</TableCell>
                     <TableCell className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" onClick={() => {setId(task.id); handleCompleteTask()}}>
                       <Check className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="icon" onClick={() => {setId(task.id); handleOpenDelete(); }}>
