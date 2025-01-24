@@ -36,10 +36,16 @@ bun dev
 - Open your browser and navigate to http://localhost:3000 to view the app.
 
 ## APIS
-Currently the application has one API that creates a task for the client, the APIs are found in the '/app/api'. 
+Currently the application has one API that creates a task for the client and the other that fetches tasks from the database, the APIs are found in the '/app/api/'. 
 
-## How the API Works:
+## How the APIs Work:
+# Create Tasks API:
 It performs the following steps:
 - Reads and validates input: It checks if the title, description, and date are provided in the request body.
 - Creates the task: If the data is valid, it creates a new task in the database using Prisma's create method.
 - Returns response: On success, it returns the created task with a 201 status. If there’s an error, it logs the error and returns a 500 status with a generic error message.
+
+# Fetch Tasks API:
+- prisma.task.findMany() retrieves all records from the task table in the database.
+- If successful, it returns the tasks in JSON format with a 200 status.
+If an error occurs, it logs the error and returns a 500 status with an error message.

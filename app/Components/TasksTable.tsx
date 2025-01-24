@@ -72,8 +72,8 @@ export default function TasksTable() {
                         {task.status}
                     </Badge>
                     </TableCell>
-                    <TableCell>{task.createdAt.toLocaleDateString()}</TableCell>
-                    <TableCell>{task.dueDate.toLocaleDateString()}</TableCell>
+                    <TableCell>{task.updatedAt.toDateString()}</TableCell>
+                    <TableCell>{task.dueDate.toDateString()}</TableCell>
                 </TableRow>
                 )) : (
                     <TableRow>
