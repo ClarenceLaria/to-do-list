@@ -34,9 +34,14 @@ pnpm dev
 bun dev
 ```
 - Open your browser and navigate to http://localhost:3000 to view the app.
+- Should the theme not work try installing tailwindcss-animate:
+
+```bash
+npm install tailwindcss-animate
+```
 
 ## APIS
-Currently the application has one API that creates a task for the client and the other that fetches tasks from the database, the APIs are found in the '/app/api/'. 
+Currently the application has one API that creates a task for the client, one that fetches tasks from the database and one that deletes tasks, the APIs are found in the '/app/api/'. 
 
 ## How the APIs Work:
 # Create Tasks API:
@@ -49,3 +54,10 @@ It performs the following steps:
 - prisma.task.findMany() retrieves all records from the task table in the database.
 - If successful, it returns the tasks in JSON format with a 200 status.
 If an error occurs, it logs the error and returns a 500 status with an error message.
+
+# Delete Tasks API:
+- Extract Task ID: It reads the id of the task to delete from the request body (JSON format).
+- Delete Task: It uses Prisma to delete the task from the database where the id matches the one provided.
+Send Response:
+- If successful, it sends back a confirmation message along with the details of the deleted task.
+- If there’s an error, it logs the issue and sends an error message.

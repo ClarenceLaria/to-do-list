@@ -11,6 +11,9 @@ import {
 } from "@/app/Components/Table";
 import { Badge } from "./Badge";
 import { Status } from '@prisma/client';
+import { Button } from './Button';
+import { Check, Trash2,  } from 'lucide-react';
+import { DeleteTaskDialog } from './delete-task-dialog';
 
 interface Task{
     id: string;
@@ -23,6 +26,12 @@ interface Task{
 }
 export default function TasksTable() {
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [id, setId] = useState('');
+    const [openDelete, setOpenDelete] = useState(false);
+
+    const handleOpenDelete = () => {
+        setOpenDelete((prev) => !prev);
+    };
 
     useEffect(() => {
         const handleTasks = async () => {
@@ -43,6 +52,7 @@ export default function TasksTable() {
         handleTasks();
     },[]);
   return (
+    <>
     <Card>
         <CardHeader>
             <CardTitle>Tasks</CardTitle>
@@ -57,6 +67,7 @@ export default function TasksTable() {
                 <TableHead>Status</TableHead>
                 <TableHead>Created On</TableHead>
                 <TableHead>Completed by</TableHead>
+                <TableHead>Action</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -74,6 +85,14 @@ export default function TasksTable() {
                     </TableCell>
                     <TableCell>{task.updatedAt.toDateString()}</TableCell>
                     <TableCell>{task.dueDate.toDateString()}</TableCell>
+                    <TableCell className="flex items-center gap-2">
+                    <Button variant="ghost" size="icon">
+                      <Check className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => {setId(task.id); handleOpenDelete(); }}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </TableCell>
                 </TableRow>
                 )) : (
                     <TableRow>
@@ -84,5 +103,7 @@ export default function TasksTable() {
             </Table>
         </CardContent>
   </Card>
+  <DeleteTaskDialog open={openDelete} id={id} />
+  </>
   )
 }
