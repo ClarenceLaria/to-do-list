@@ -19,5 +19,11 @@ model Task {
   title     String
   description String
   dueDate   DateTime
+  status    Status      @default(INCOMPLETE)
   updatedAt DateTime    @updatedAt
+}
+
+enum Status{
+  COMPLETED
+  INCOMPLETE
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {Button} from "./Components/Button";
 import toast from 'react-hot-toast';
 import clsx from "clsx";
+import TasksTable from "./Components/TasksTable";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -105,37 +106,42 @@ export default function Home() {
   }
   console.log(formData)
   return (
-    <div className="flex flex-col bg-card items-center justify-center h-screen py-2">
-      <h1 className="text-lg font-semibold">Add An Item To Your To Do List</h1>
-      <form className="w-1/3">
-        <Input
-          id='title'
-          name='title'
-          label='Title'
-          type='text'
-          required
-          placeholder='Enter Title'
-          disabled={disabled}
-          value={formData.title}
-          onChange={handleChange}
-        />
-        <div className="flex flex-col">
-          <label htmlFor="description" className="block text-sm font-medium leading-7 text-card-foreground">Description</label>
-          <textarea id="description" name="description" placeholder="Enter Description" disabled={disabled } onChange={(event) => handleChange(event)} className={clsx(`block w-full min-h-20 rounded-md border-0 py-1.5 px-3 mb-2 text-card-foreground shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-sky-300`,disabled && 'opacity-100 cursor-default')}></textarea>
-        </div>
-        <Input
-          id='date'
-          name='date'
-          label='Completed By'
-          type='Date'
-          required
-          placeholder='Enter Date'
-          disabled={disabled}
-          value={formData.date}
-          onChange={handleChange}
-        />
-        <Button type="submit" onClick={() => handleSubmit()} disabled={disabled}>Submit</Button>
-      </form>
+    <div className="bg-background grid grid-cols-2 ">
+      <div className="flex flex-col items-center justify-center h-screen py-2">
+        <h1 className="text-lg font-semibold">Add An Item To Your To Do List</h1>
+        <form className="w-1/2">
+          <Input
+            id='title'
+            name='title'
+            label='Title'
+            type='text'
+            required
+            placeholder='Enter Title'
+            disabled={disabled}
+            value={formData.title}
+            onChange={handleChange}
+          />
+          <div className="flex flex-col">
+            <label htmlFor="description" className="block text-sm font-medium leading-7 text-card-foreground">Description</label>
+            <textarea id="description" name="description" placeholder="Enter Description" disabled={disabled } onChange={(event) => handleChange(event)} className={clsx(`block w-full min-h-20 rounded-md border-0 py-1.5 px-3 mb-2 text-card-foreground shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-sky-300`,disabled && 'opacity-100 cursor-default')}></textarea>
+          </div>
+          <Input
+            id='date'
+            name='date'
+            label='Completed By'
+            type='Date'
+            required
+            placeholder='Enter Date'
+            disabled={disabled}
+            value={formData.date}
+            onChange={handleChange}
+          />
+          <Button type="submit" onClick={() => handleSubmit()} disabled={disabled}>Submit</Button>
+        </form>
+      </div>
+      <div className="flex flex-col items-center h-screen py-2 my-44 ">
+        <TasksTable/>
+      </div>
     </div>
   );
 }
