@@ -12,7 +12,7 @@ import {
 import { Badge } from "./Badge";
 import { Status } from '@prisma/client';
 import { Button } from './Button';
-import { Check, Trash2,  } from 'lucide-react';
+import { Check, PenIcon, Trash2,  } from 'lucide-react';
 import { DeleteTaskDialog } from './delete-task-dialog';
 import toast from 'react-hot-toast';
 import { setCompleteTask } from '../lib/actions';
@@ -26,7 +26,11 @@ interface Task{
     dueDate: Date;
     updatedAt: Date;
 }
-export default function TasksTable() {
+interface TasksTableProps {
+    // tasks: Task[];
+    onEditTask: (task: Task) => void; // Callback to handle editing
+  }
+export default function TasksTable({onEditTask }: TasksTableProps) {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [id, setId] = useState('');
     const [openDelete, setOpenDelete] = useState(false);
@@ -99,8 +103,11 @@ export default function TasksTable() {
                     <TableCell>{task.updatedAt.toDateString()}</TableCell>
                     <TableCell>{task.dueDate.toDateString()}</TableCell>
                     <TableCell className="flex items-center gap-2">
+                    <Button variant="ghost" size="icon" onClick={() => onEditTask(task)}>
+                      <PenIcon className="h-4 w-4" />
+                    </Button>
                     <Button variant="ghost" size="icon" onClick={() => {setId(task.id); handleCompleteTask()}}>
-                      <Check className="h-4 w-4" />
+                      <Check className="h-4 w-4 text-green-500" />
                     </Button>
                     <Button variant="ghost" size="icon" onClick={() => {setId(task.id); handleOpenDelete(); }}>
                       <Trash2 className="h-4 w-4 text-destructive" />
