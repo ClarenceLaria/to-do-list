@@ -61,3 +61,13 @@ If an error occurs, it logs the error and returns a 500 status with an error mes
 Send Response:
 - If successful, it sends back a confirmation message along with the details of the deleted task.
 - If there’s an error, it logs the issue and sends an error message.
+
+# Update Tasks API:
+- Handle PUT request:Checks if the request method is PUT.
+- Extract task ID from the URL: Reads taskId from the request URL query parameters.If taskId is missing, returns a 400 error.
+- Read request body: Extracts title, description, and date from the request.If any field is missing, returns a 400 error.
+- Update task in the database: Searches for the task by id. Updates title, description, dueDate, and sets status: "INCOMPLETE".
+- Handle errors: If something goes wrong, logs the error and returns a 500 error.
+
+# Server Actions
+- In the '/app/lib/' directory there is a file named 'actions.ts' which I have used for server actions. The server action there is for updating the status of a task from 'INCOMPLETE' to 'COMPLETE'.
